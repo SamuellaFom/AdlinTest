@@ -4,6 +4,7 @@ import * as fs from 'fs';
 
 const path = require('path');
 
+// The ParseJson function reads and parses a JSON file 
 export async function ParseJson(file: String) {
   const ContentFile: any = fs.readFileSync(path.join(__dirname, `../json/${file}`), 'utf8');
   return JSON.parse(ContentFile)
@@ -14,6 +15,7 @@ export async function CreateReservation(req: Request, res: Response) {
     .then(async (value: any) => {
       const content: Rooms[] = value.rooms
 
+      /* this code block verifies that the selected room exists and creates the reservation */
       for (let i = 0; i < content.length; i++) {
         if (req.body.name == content[i]['name']) {
           const contentReservation = await ParseJson("reservation.json");
@@ -45,6 +47,8 @@ export async function GetRoomAvailable(req: Request, res: Response) {
 
     let RoomsAvailable: Rooms[] = []
 
+    /* this code block selects the rooms according to the given criteria */
+
     for (let i = 0; i < Rooms['rooms'].length; i++) {
 
       if (req.body.capacity == Rooms['rooms'][i].capacity) {
@@ -67,6 +71,8 @@ export async function GetRoomAvailable(req: Request, res: Response) {
       }
 
     }
+
+    /* This block of code is checking for room availability based on existing reservations. */
 
     for (let i = 0; i < Reservations['rooms'].length; i++) {
 
