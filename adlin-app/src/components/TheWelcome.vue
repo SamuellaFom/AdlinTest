@@ -19,7 +19,7 @@ import SupportIcon from './icons/IconSupport.vue'
     provides you with all information you need to get started.
   </WelcomeItem>
 
-  <WelcomeItem>
+  <!-- <WelcomeItem>
     <template #icon>
       <ToolingIcon />
     </template>
@@ -84,5 +84,5 @@ import SupportIcon from './icons/IconSupport.vue'
     As an independent project, Vue relies on community backing for its sustainability. You can help
     us by
     <a href="https://vuejs.org/sponsor/" target="_blank" rel="noopener">becoming a sponsor</a>.
-  </WelcomeItem>
+  </WelcomeItem> -->
 </template>

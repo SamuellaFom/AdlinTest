@@ -1,44 +1,120 @@
-<script setup>
-defineProps({
-  msg: {
-    type: String,
-    required: true
-  }
-})
-</script>
-
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
-    </h3>
+    <form>
+      <label>FILTRES</label>
+      <p>
+        Début de réservation?
+        <input type="datetime-local" v-model="state.start_date">
+      </p>
+      <p>
+        Fin de réservation?
+        <input type="datetime-local" v-model="state.end_date">
+      </p>
+
+      <label>Capacité:</label>
+      <select name="capacity" required id="capacity-select" v-model="state.capacity">
+        <option value="">Please choose an option</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="26">26</option>
+      </select>
+
+      <label>Equipements:</label>
+      <div class="check">
+        <input type="checkbox" id="tv" name="tv" checked v-model="state.equipements" />
+        <label for="tv">TV</label>
+      </div>
+      <div class="check">
+        <input type="checkbox" id="Retro" name="Retro" checked v-model="state.equipements" />
+        <label for="Retro">Retro Projecteur</label>
+      </div>
+      <button type="submit">Add item</button>
+    </form>
   </div>
 </template>
+<script>
+import useValidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
+import { reactive, computed } from 'vue'
+export default {
+  setup() {
+    const state = reactive({
+      start_date: '',
+      end_date: '',
+      capacity: '',
+      equipements: []
+    })
+    const rules = computed(() => {
+      return {
+        start_date: { required },
+        end_date: { required },
+        capacity: { required },
+        equipements: { required },
+      }
+    })
 
+    const v$ = useValidate(rules, state)
+
+    return {
+      state,
+      v$
+    }
+  },
+  methods: {
+    submitForm() {
+      this.v$.$validate()
+      if (!this.v$.$error) {
+        alert('Form succesfully submitted')
+      } else {
+        alert('Form failed validation')
+      }
+    },
+  },
+}
+</script>
 <style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  position: relative;
-  top: -10px;
+.check {
+  margin: 8px 0;
 }
 
-h3 {
-  font-size: 1.2rem;
+input[type=datetime-local],
+select {
+  width: 100%;
+  padding: 12px 10px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.greetings h1,
-.greetings h3 {
-  text-align: center;
+form {
+  background-color: #D9D9D9;
+  width: 40%;
+  max-width: 270px;
+  padding: 20px;
+  height: auto;
+  margin: 2%;
+  color: black;
 }
 
-@media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
-    text-align: left;
+button {
+  background-color: #0D0032;
+  color: white;
+  width: 100%;
+  padding: 12px 10px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 600px) {
+  form {
+    width: 100%;
+    margin: 20px 0;
   }
 }
 </style>
