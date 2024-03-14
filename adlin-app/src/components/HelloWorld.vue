@@ -1,6 +1,6 @@
 <template>
   <div class="greetings">
-    <form>
+    <form @submit.prevent="submitForm">
       <label>FILTRES</label>
       <p>
         Début de réservation?
@@ -33,10 +33,11 @@
     </form>
   </div>
 </template>
+
 <script>
-import useValidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { useValidate, required } from '@vuelidate/core'
 import { reactive, computed } from 'vue'
+
 export default {
   setup() {
     const state = reactive({
@@ -45,6 +46,7 @@ export default {
       capacity: '',
       equipements: []
     })
+
     const rules = computed(() => {
       return {
         start_date: { required },
@@ -56,23 +58,24 @@ export default {
 
     const v$ = useValidate(rules, state)
 
-    return {
-      state,
-      v$
-    }
-  },
-  methods: {
-    submitForm() {
-      this.v$.$validate()
-      if (!this.v$.$error) {
-        alert('Form succesfully submitted')
+    const submitForm = () => {
+      v$.$validate()
+      if (!v$.$error) {
+        console.log(state)
+        alert('Form successfully submitted')
       } else {
         alert('Form failed validation')
       }
-    },
-  },
+    }
+
+    return {
+      state,
+      submitForm
+    }
+  }
 }
 </script>
+
 <style scoped>
 .check {
   margin: 8px 0;
