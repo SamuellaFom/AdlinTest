@@ -9,13 +9,20 @@ import HelloWorld from './components/HelloWorld.vue'
   </header>
 
   <main>
-      <div class="wrapper">
+    <div>
+      <h1 class="centered">Reservation de salle</h1>
       <HelloWorld/>
     </div> 
   </main>
 </template>
 
-<style scoped>
+<style>
+
+.centered {
+  text-align: center; /* Centrer le texte horizontalement */
+  color: white
+}
+
 .logo {
   display: block;
   margin: 0 auto 2rem;

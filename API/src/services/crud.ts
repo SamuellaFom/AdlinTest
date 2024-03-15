@@ -10,6 +10,19 @@ export async function ParseJson(file: String) {
   return JSON.parse(ContentFile)
 }
 
+export async function GetRooms(req: Request, res: Response) {
+  try {
+
+    const AllRooms = await ParseJson("salles.json");
+    console.log(AllRooms['rooms'])
+    res.send(AllRooms['rooms'])
+
+  } catch (error) {
+    res.status(500).send(`An error has occurred : ${error}`);
+    console.log(error);
+  }
+
+}
 export async function CreateReservation(req: Request, res: Response) {
   ParseJson('salles.json')
     .then(async (value: any) => {
@@ -41,7 +54,7 @@ export async function CreateReservation(req: Request, res: Response) {
 }
 
 export async function GetRoomAvailable(req: Request, res: Response) {
- console.log(req.body)
+  console.log(req.body)
   try {
     const Rooms = await ParseJson('salles.json');
     const Reservations = await ParseJson('reservation.json');

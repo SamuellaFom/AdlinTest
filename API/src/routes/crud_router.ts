@@ -1,8 +1,9 @@
 import express from "express";
-import { CreateReservation, GetRoomAvailable } from "../services/crud";
+import { CreateReservation, GetRoomAvailable, GetRooms} from "../services/crud";
 
 const RouteRooms = express();
 
+RouteRooms.get("/api/allrooms", GetRooms);
 RouteRooms.post("/api/create/reservation", CreateReservation);
 RouteRooms.post("/api/room_available", GetRoomAvailable);
 
