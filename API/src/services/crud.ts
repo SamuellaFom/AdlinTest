@@ -41,6 +41,7 @@ export async function CreateReservation(req: Request, res: Response) {
 }
 
 export async function GetRoomAvailable(req: Request, res: Response) {
+ console.log(req.body)
   try {
     const Rooms = await ParseJson('salles.json');
     const Reservations = await ParseJson('reservation.json');
@@ -91,6 +92,7 @@ export async function GetRoomAvailable(req: Request, res: Response) {
     if (RoomsAvailable.length == 0) {
       res.send("Aucune salle disponible")
     } else {
+      console.log(RoomsAvailable)
       res.send(RoomsAvailable)
     }
   } catch (error) {
