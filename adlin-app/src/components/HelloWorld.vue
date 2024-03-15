@@ -1,6 +1,6 @@
 <template>
   <div class="greetings">
-    <form @submit.prevent="submitForm">
+    <form>
       <label>FILTRES</label>
       <p>
         Début de réservation?
@@ -22,20 +22,23 @@
 
       <label>Equipements:</label>
       <div class="check">
-        <input type="checkbox" id="tv" name="tv" checked v-model="state.equipements" />
+        <input type="checkbox" id="tv" name="tv" @change="(() => { state.equipements.push('TV') })" />
         <label for="tv">TV</label>
       </div>
       <div class="check">
-        <input type="checkbox" id="Retro" name="Retro" checked v-model="state.equipements" />
+        <input type="checkbox" id="Retro" name="Retro"
+          @change="(() => { state.equipements.push('Retro Projecteur') })" />
         <label for="Retro">Retro Projecteur</label>
       </div>
-      <button type="submit">Add item</button>
+      <button type="submit" @click="submitForm">Add item</button>
     </form>
   </div>
 </template>
 
+
 <script>
-import { useValidate, required } from '@vuelidate/core'
+import useValidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 import { reactive, computed } from 'vue'
 
 export default {
@@ -59,10 +62,31 @@ export default {
     const v$ = useValidate(rules, state)
 
     const submitForm = () => {
-      v$.$validate()
-      if (!v$.$error) {
+      v$.value.$validate()
+      if (!v$.value.$error) {
+        fetch('http://194.32.78.202:3000/api/room_available', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "start_date": state.start_date,
+            "end_date": state.end_date,
+            "capacity": parseInt(state.capacity),
+            "equipements": state.equipements
+          })
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => console.log(data))
+          .catch(error => console.error('Fetch error:', error));
+
         console.log(state)
-        alert('Form successfully submitted')
+        alert('Form succesfully submitted')
       } else {
         alert('Form failed validation')
       }
@@ -70,11 +94,13 @@ export default {
 
     return {
       state,
-      submitForm
+      v$,
+      submitForm,
     }
   }
 }
 </script>
+
 
 <style scoped>
 .check {
