@@ -14,7 +14,6 @@ export async function GetRooms(req: Request, res: Response) {
   try {
 
     const AllRooms = await ParseJson("salles.json");
-    console.log(AllRooms['rooms'])
     res.send(AllRooms['rooms'])
 
   } catch (error) {
@@ -23,6 +22,7 @@ export async function GetRooms(req: Request, res: Response) {
   }
 
 }
+
 export async function CreateReservation(req: Request, res: Response) {
   ParseJson('salles.json')
     .then(async (value: any) => {
@@ -106,7 +106,8 @@ export async function GetRoomAvailable(req: Request, res: Response) {
       res.send("Aucune salle disponible")
     } else {
       console.log(RoomsAvailable)
-      res.send(RoomsAvailable)
+      res.send(JSON.stringify(RoomsAvailable, null, 2));
+      //res.json(RoomsAvailable)
     }
   } catch (error) {
     res.status(500).send(`An error has occurred : ${error}`);
