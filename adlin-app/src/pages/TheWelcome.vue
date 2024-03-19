@@ -1,47 +1,87 @@
+<template>
+ <div class="firstContaniner">
+  <div class="secondContainer">
+      <div v-for="room in roomsAvailable" :key="room" class="card">
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample23.jpg" alt="Image 1">
+        <div class="card-info">
+          <h2>{{ room.name }}</h2>
+          <p>Capacity: {{ room.capacity }}</p>
+          <p v-if="room.equipements.length > 0">Equipments:</p>
+          <ul v-if="room.equipements.length > 0">
+            <li v-for="equipement in room.equipements" :key="equipement.id">{{ equipement.name }}</li>
+          </ul>
+          <p v-else>No equipments available</p>
+          <button type="submit" @click="submitForm">Rechercher</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+</template>
+
 <script>
+import { useRouter } from 'vue-router'
+
 export default {
-  props: {
-    RoomsAvailable: {
-      type: Array,
-      required: true
+  data() {
+    return {
+      roomsAvailable: ''
     }
   },
-  mounted() {
-    console.log(this.RoomsAvailable);
+  setup() {
+    const router = useRouter();
+    console.log(router.currentRoute.value.query.roomsAvailable)
+    const roomsAvailable = router.currentRoute.value.query.roomsAvailable
+    console.log(JSON.parse(roomsAvailable))
+
+    return {
+      roomsAvailable: JSON.parse(roomsAvailable)
+    }
   }
 }
 </script>
 
-
-<template>
-  <div class="firstContaniner">
-    <div class="secondContainer">
-      <div class="image-list">
-        <div class="card">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample23.jpg" alt="Image 1">
-          <div class="card-info" v-for="room in RoomsAvailable" :key="room.name">
-            <h2>{{ room.name }}</h2>
-            <p>{{ room.capacity }}</p>
-            <p v-for="equipment in room.equipments" :key="equipment">{{ equipment.name }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</template>
-
 <style>
-.firstContaniner {
+.card {
   background-color: white;
-  padding: 80px;
-  display: table;
-  height: 100%;
-  margin: 0 auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 300px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
 }
 
-.secondContainer {
-  display: table-cell;
-  vertical-align: middle;
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
+
+.card-info {
+  padding: 20px;
+}
+
+.card-info h2 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.card-info p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.card-info p:last-child {
+  margin-bottom: 0;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
 </style>

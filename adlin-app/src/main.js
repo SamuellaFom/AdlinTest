@@ -12,10 +12,12 @@ import HelloWorld from './pages/HelloWorld.vue';
 const routes = [
   {
     path: '/',
+    name: "home",
     component: HelloWorld,
   },
   {
     path: '/welcome',
+    name: "welcome",
     component: TheWelcome,
     props: true
   },

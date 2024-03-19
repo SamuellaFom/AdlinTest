@@ -54,7 +54,6 @@ export async function CreateReservation(req: Request, res: Response) {
 }
 
 export async function GetRoomAvailable(req: Request, res: Response) {
-  console.log(req.body)
   try {
     const Rooms = await ParseJson('salles.json');
     const Reservations = await ParseJson('reservation.json');
@@ -78,7 +77,7 @@ export async function GetRoomAvailable(req: Request, res: Response) {
             if (Rooms['rooms'][i].equipements.some((equipement: any) => equipement.name === req.body.equipements[j])) {
 
               RoomsAvailable.push(Rooms['rooms'][i])
-
+              break
             }
           }
         }
@@ -95,7 +94,6 @@ export async function GetRoomAvailable(req: Request, res: Response) {
         if (RoomsAvailable[j].name == Reservations['rooms'][i].name) {
 
           if ((req.body.start_date == Reservations['rooms'][i].start_date) || (req.body.end_date == Reservations['rooms'][i].end_date)) {
-
             RoomsAvailable.splice(j, 1)
           }
         }
@@ -105,9 +103,7 @@ export async function GetRoomAvailable(req: Request, res: Response) {
     if (RoomsAvailable.length == 0) {
       res.send("Aucune salle disponible")
     } else {
-      console.log(RoomsAvailable)
-      res.send(JSON.stringify(RoomsAvailable, null, 2));
-      //res.json(RoomsAvailable)
+      res.send(RoomsAvailable);
     }
   } catch (error) {
     res.status(500).send(`An error has occurred : ${error}`);

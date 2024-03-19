@@ -42,6 +42,82 @@
 
 </template>
 
+<script>
+import useValidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
+import { reactive, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+export default {
+  setup() {
+    const router = useRouter();
+
+    const state = reactive({
+      start_date: '',
+      end_date: '',
+      capacity: '',
+      equipements: []
+    });
+
+    const rules = computed(() => {
+      return {
+        start_date: { required },
+        end_date: { required },
+        capacity: { required },
+        equipements: { required },
+      };
+    });
+
+    const v$ = useValidate(rules, state);
+
+    const submitForm = async (e) => {
+      e.preventDefault()
+      v$.value.$validate()
+      if (!v$.value.$error) {
+        fetch('http://194.32.78.202:3000/api/room_available', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "start_date": state.start_date,
+            "end_date": state.end_date,
+            "capacity": parseInt(state.capacity),
+            "equipements": state.equipements
+          })
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            } else {
+              return response.json();
+            }
+          })
+          .then(data => {
+            console.log(data);
+            router.push({
+              name: 'welcome',
+              query: {
+                roomsAvailable: JSON.stringify(data)
+              }
+            });
+          })
+          .catch(error => console.error('Fetch error:', error));
+        alert('Form succesfully submitted')
+      } else {
+        alert('Form failed validation')
+      }
+    }
+
+    return {
+      state,
+      v$,
+      submitForm,
+    };
+  }
+}
+</script>
+
 <style>
 .form-group {
   display: flex;
@@ -115,78 +191,3 @@ button {
   }
 }
 </style>
-
-<script>
-import useValidate from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
-import { reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
-
-export default {
-  setup() {
-    const router = useRouter();
-
-    const state = reactive({
-      start_date: '',
-      end_date: '',
-      capacity: '',
-      equipements: []
-    });
-
-    const rules = computed(() => {
-      return {
-        start_date: { required },
-        end_date: { required },
-        capacity: { required },
-        equipements: { required },
-      };
-    });
-
-    const v$ = useValidate(rules, state);
-
-    const submitForm = async () => {
-      v$.value.$validate()
-      if (!v$.value.$error) {
-        fetch('http://194.32.78.202:3000/api/room_available', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            "start_date": state.start_date,
-            "end_date": state.end_date,
-            "capacity": parseInt(state.capacity),
-            "equipements": state.equipements
-          })
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            } else {
-              return response.json();
-            }
-          })
-          .then(data => {
-            console.log(data);
-            router.push({
-              path: '/welcome',
-              props: {
-                RoomsAvailable: JSON.stringify(data)
-              }
-            });
-          })
-          .catch(error => console.error('Fetch error:', error));
-        alert('Form succesfully submitted')
-      } else {
-        alert('Form failed validation')
-      }
-    }
-
-    return {
-      state,
-      v$,
-      submitForm,
-    };
-  }
-}
-</script>
