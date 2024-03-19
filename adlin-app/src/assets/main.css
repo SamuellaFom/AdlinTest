@@ -5,3 +5,26 @@ body {
 * {
   font-family: "Georgia", serif;
 }
+
+.firstContaniner {
+  display: table;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.secondContainer {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+button {
+  background-color: #0D0032;
+  color: white;
+  width: 100%;
+  padding: 12px 10px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

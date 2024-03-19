@@ -2,7 +2,7 @@
  <div class="firstContaniner">
   <div class="secondContainer">
       <div v-for="room in roomsAvailable" :key="room" class="card">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/pr-sample23.jpg" alt="Image 1">
+        <img :src="room.image" alt="photo">
         <div class="card-info">
           <h2>{{ room.name }}</h2>
           <p>Capacity: {{ room.capacity }}</p>
@@ -11,12 +11,11 @@
             <li v-for="equipement in room.equipements" :key="equipement.id">{{ equipement.name }}</li>
           </ul>
           <p v-else>No equipments available</p>
-          <button type="submit" @click="submitForm">Rechercher</button>
+          <button type="submit" @click="">Reserver</button>
         </div>
       </div>
     </div>
 </div>
-
 
 </template>
 
@@ -83,5 +82,4 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-5px);
 }
-
 </style>

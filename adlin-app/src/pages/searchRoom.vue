@@ -38,8 +38,6 @@
       </form>
     </div>
   </div>
-
-
 </template>
 
 <script>
@@ -96,7 +94,7 @@ export default {
           .then(data => {
             console.log(data);
             router.push({
-              name: 'welcome',
+              name: 'roomAvailable',
               query: {
                 roomsAvailable: JSON.stringify(data)
               }
@@ -125,17 +123,6 @@ export default {
   margin-bottom: 15px;
 }
 
-.firstContaniner {
-  display: table;
-  height: 100%;
-  margin: 0 auto;
-}
-
-.secondContainer {
-  display: table-cell;
-  vertical-align: middle;
-}
-
 form {
   background-color: white;
   padding: 70px;
@@ -156,18 +143,6 @@ select {
   background-color: #fff;
   border: 1px solid #ddd;
   line-height: 20px;
-}
-
-button {
-  background-color: #0D0032;
-  color: white;
-  width: 100%;
-  padding: 12px 10px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
 }
 
 @media screen and (max-width: 640px) {

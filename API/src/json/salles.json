@@ -4,6 +4,7 @@
       "name": "Salle #1",
       "description": "Salle #1",
       "capacity": 5,
+      "image": "https://img.freepik.com/photos-gratuite/salle-conference-reunion-affaires-vide-graphiques-diagrammes-television-arriere-plan_482257-25767.jpg?t=st=1710885516~exp=1710889116~hmac=cb85b0b158ae00cef89432fe36ed458a997ce831632c75004dd9ba6ca3d0919a&w=1800",
       "equipements": [
         {
           "name": "TV"
@@ -19,6 +20,7 @@
       "name": "Salle #2",
       "description": "Salle #2",
       "capacity": 10,
+      "image": "https://img.freepik.com/photos-gratuite/interieur-salle-conference-bureau-moderne-murs-blancs-moniteur_181624-17709.jpg?t=st=1710885827~exp=1710889427~hmac=f3f79afabe9d5f782103101293f57dd8de4932124bf6e7a434cdc6e2398297c1&w=1800",
       "equipements": [
         {
           "name": "Retro Projecteur"
@@ -31,6 +33,7 @@
       "name": "Salle Okjsdkso",
       "description": "Salle Okjsdkso",
       "capacity": 11,
+      "image": "https://img.freepik.com/photos-gratuite/affaires-salle-reunion-dans-bureau_1170-1950.jpg?t=st=1710885785~exp=1710889385~hmac=dd1104ae495ccf199d77b7fae9ea2298c6f41f71d5145b570ceca6e9ef584b2e&w=826",
       "equipements": [],
       "createdAt": "2016-12-07T14:15:55.733Z",
       "updatedAt": "2016-12-09T16:45:19.025Z"
@@ -39,6 +42,7 @@
       "name": "Salle de ouf",
       "description": "Salle de ouf",
       "capacity": 10,
+      "image": "https://img.freepik.com/photos-gratuite/salle-reunion-affaires_1098-19955.jpg?w=1800&t=st=1710885304~exp=1710885904~hmac=a7dfe90cf4634131d875905b9251d0d1f5e83093075ba7cec7894e93ef20b198",
       "equipements": [
         {
           "name": "TV"
@@ -54,6 +58,7 @@
       "name": "Salle nulle",
       "description": "Salle nulle",
       "capacity": 26,
+      "image": "https://img.freepik.com/photos-gratuite/interieur-salle-conference-bureau-moderne-murs-blancs-moniteur_181624-22217.jpg?t=st=1710885610~exp=1710889210~hmac=923fb8c7b095bb5ee435c3fb6d0c2a472c0800c6f80b442b3b390d7d7d1cd91e&w=1800",
       "equipements": [
         {
           "name": "TV"
