@@ -1,6 +1,6 @@
 <template>
- <div class="firstContaniner">
-  <div class="secondContainer">
+  <div class="firstContaniner">
+    <div class="secondContainer">
       <div v-for="room in roomsAvailable" :key="room" class="card">
         <img :src="room.image" alt="photo">
         <div class="card-info">
@@ -11,32 +11,35 @@
             <li v-for="equipement in room.equipements" :key="equipement.id">{{ equipement.name }}</li>
           </ul>
           <p v-else>No equipments available</p>
-          <button type="submit" @click="">Reserver</button>
+          <button @click="(() => {showModal = !showModal})">Reserver</button>
+            <MyModelPreview v-if="showModal"></MyModelPreview>
         </div>
       </div>
     </div>
-</div>
-
+  </div>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
+import MyModelPreview from '@/components/MyModelPreview.vue';
 
 export default {
   data() {
     return {
-      roomsAvailable: ''
+      roomsAvailable: '',
+      showModal: false,
     }
   },
   setup() {
     const router = useRouter();
-    console.log(router.currentRoute.value.query.roomsAvailable)
-    const roomsAvailable = router.currentRoute.value.query.roomsAvailable
-    console.log(JSON.parse(roomsAvailable))
+    const roomsAvailable = JSON.parse(router.currentRoute.value.query.roomsAvailable)
 
     return {
-      roomsAvailable: JSON.parse(roomsAvailable)
+      roomsAvailable,
     }
+  },
+  components: {
+    MyModelPreview
   }
 }
 </script>

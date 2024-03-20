@@ -101,7 +101,7 @@ export default {
             });
           })
           .catch(error => console.error('Fetch error:', error));
-        alert('Form succesfully submitted')
+        //alert('Form succesfully submitted')
       } else {
         alert('Form failed validation')
       }
