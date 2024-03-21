@@ -12,7 +12,7 @@
           </ul>
           <p v-else>Aucun équipements disponibles</p>
           <button @click="(() => { showModal = !showModal })">Reserver</button>
-          <MyModelPreview v-if="showModal" :room_name="room.name"></MyModelPreview>
+          <Model v-if="showModal" :room_name="room.name"></Model>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import MyModelPreview from '@/components/MyModelPreview.vue';
+import Model from '../components/Model.vue';
 
 export default {
   data() {
@@ -39,7 +39,7 @@ export default {
     }
   },
   components: {
-    MyModelPreview
+    Model
   }
 }
 </script>

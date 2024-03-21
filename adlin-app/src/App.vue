@@ -1,10 +1,10 @@
 <script setup>
-import HeaderComponent from './components/HeaderComponent.vue';
+import Header from './components/Header.vue';
 
 </script>
 <template>
   <header>
-    <HeaderComponent />
+    <Header/>
   </header>
 
   <main>

@@ -8,7 +8,7 @@
       <label for="end_date">Fin de réservation :</label>
       <input type="datetime-local" v-model="state.end_date" id="end_date">
     </div>
-    <button type="submit" @click="submitForm">Reserver</button>
+    <button type="submit" @click="submitForm">Confirmer</button>
   </div>
 </template>
 

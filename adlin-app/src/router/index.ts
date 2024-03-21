@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import listRoom from '@/pages/listRoom.vue';
+import roomList from '@/pages/roomList.vue';
 import searchRoom from '@/pages/searchRoom.vue';
 
 const routes = [
@@ -11,10 +11,9 @@ const routes = [
   {
     path: '/room_available',
     name: "roomAvailable",
-    component: listRoom,
+    component: roomList,
     props: true
   },
-  // { path: '/:pathMatch(.*)', component: NotFound }
 ];
 
 const router = createRouter({
