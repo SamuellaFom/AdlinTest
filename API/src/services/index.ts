@@ -27,24 +27,30 @@ export async function CreateReservation(req: Request, res: Response) {
   ParseJson('salles.json')
     .then(async (value: any) => {
       const content: Rooms[] = value.rooms
+      let roomFound = false;
 
       /* this code block verifies that the selected room exists and creates the reservation */
       for (let i = 0; i < content.length; i++) {
         if (req.body.name == content[i]['name']) {
+          roomFound = true;
           const contentReservation = await ParseJson("reservation.json");
           if (!contentReservation["rooms"]) {
             contentReservation["rooms"] = [];
-          } else {
-            const reservation = {
-              "name": content[i]['name'],
-              "start_date": req.body.start_date,
-              "end_date": req.body.end_date
-            }
-            contentReservation["rooms"].push(reservation)
-
-            fs.writeFileSync((path.join(__dirname, '../json/reservation.json')), JSON.stringify(contentReservation, null, 4));
           }
+          const reservation = {
+            "name": content[i]['name'],
+            "start_date": req.body.start_date,
+            "end_date": req.body.end_date
+          };
+          contentReservation["rooms"].push(reservation);
+          fs.writeFileSync((path.join(__dirname, '../json/reservation.json')), JSON.stringify(contentReservation, null, 4));
+          res.status(200).send('Room reserved');
+          break;
         }
+      }
+
+      if (!roomFound) {
+        res.status(400).send('Room name not found');
       }
     })
     .catch((error) => {
@@ -77,7 +83,7 @@ export async function GetRoomAvailable(req: Request, res: Response) {
             if (Rooms['rooms'][i].equipements.some((equipement: any) => equipement.name === req.body.equipements[j])) {
 
               RoomsAvailable.push(Rooms['rooms'][i])
-              break
+              break;
             }
           }
         }
@@ -87,21 +93,23 @@ export async function GetRoomAvailable(req: Request, res: Response) {
 
     /* This block of code is checking for room availability based on existing reservations. */
 
-    for (let i = 0; i < Reservations['rooms'].length; i++) {
+    if (Reservations['rooms'] != undefined) {
+      for (let i = 0; i < Reservations['rooms'].length; i++) {
 
-      for (let j = 0; j < RoomsAvailable.length; j++) {
+        for (let j = 0; j < RoomsAvailable.length; j++) {
 
-        if (RoomsAvailable[j].name == Reservations['rooms'][i].name) {
+          if (RoomsAvailable[j].name == Reservations['rooms'][i].name) {
 
-          if ((req.body.start_date == Reservations['rooms'][i].start_date) || (req.body.end_date == Reservations['rooms'][i].end_date)) {
-            RoomsAvailable.splice(j, 1)
+            if ((req.body.start_date == Reservations['rooms'][i].start_date) || (req.body.end_date == Reservations['rooms'][i].end_date)) {
+              RoomsAvailable.splice(j, 1)
+            }
           }
         }
       }
     }
 
     if (RoomsAvailable.length == 0) {
-      res.send("Aucune salle disponible")
+      res.send("No rooms available")
     } else {
       res.send(RoomsAvailable);
     }

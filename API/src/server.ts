@@ -1,4 +1,4 @@
-import RouteRooms from "./routes/crud_router";
+import RouteRooms from "./routes";
 
 const cors = require("cors");
 const express = require('express')

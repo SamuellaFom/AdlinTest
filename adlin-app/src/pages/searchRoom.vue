@@ -5,11 +5,11 @@
         <div class="form-inline">
           <div class="form-group">
             <label for="start_date">Date de réservation :</label>
-            <input type="datetime-local" placeholder="Début de réservation" v-model="state.start_date" id="start_date">
+            <input type="datetime-local" required v-model="state.start_date" id="start_date">
           </div>
           <div class="form-group">
             <label for="end_date">Fin de réservation :</label>
-            <input type="datetime-local" v-model="state.end_date" id="end_date">
+            <input type="datetime-local" required v-model="state.end_date" id="end_date">
           </div>
           <div class="form-group">
             <label for="capacity-select">Capacité :</label>
@@ -62,7 +62,7 @@ export default {
         start_date: { required },
         end_date: { required },
         capacity: { required },
-        equipements: { required },
+        equipements: {},
       };
     });
 
@@ -101,7 +101,6 @@ export default {
             });
           })
           .catch(error => console.error('Fetch error:', error));
-        //alert('Form succesfully submitted')
       } else {
         alert('Form failed validation')
       }

@@ -1,5 +1,5 @@
 import express from "express";
-import { CreateReservation, GetRoomAvailable, GetRooms} from "../services/crud";
+import { CreateReservation, GetRoomAvailable, GetRooms} from "../services";
 
 const RouteRooms = express();
 

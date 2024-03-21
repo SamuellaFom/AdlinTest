@@ -10,9 +10,9 @@
           <ul v-if="room.equipements.length > 0">
             <li v-for="equipement in room.equipements" :key="equipement.id">{{ equipement.name }}</li>
           </ul>
-          <p v-else>No equipments available</p>
-          <button @click="(() => {showModal = !showModal})">Reserver</button>
-            <MyModelPreview v-if="showModal"></MyModelPreview>
+          <p v-else>Aucun équipements disponibles</p>
+          <button @click="(() => { showModal = !showModal })">Reserver</button>
+          <MyModelPreview v-if="showModal" :room_name="room.name"></MyModelPreview>
         </div>
       </div>
     </div>
