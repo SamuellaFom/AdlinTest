@@ -14,10 +14,10 @@ export async function GetRooms(req: Request, res: Response) {
   try {
 
     const AllRooms = await ParseJson("salles.json");
-    res.send(AllRooms['rooms'])
+    res.json(AllRooms['rooms'])
 
   } catch (error) {
-    res.status(500).send(`An error has occurred : ${error}`);
+    res.status(500).json(`An error has occurred : ${error}`);
     console.log(error);
   }
 
@@ -44,17 +44,17 @@ export async function CreateReservation(req: Request, res: Response) {
           };
           contentReservation["rooms"].push(reservation);
           fs.writeFileSync((path.join(__dirname, '../json/reservation.json')), JSON.stringify(contentReservation, null, 4));
-          res.status(200).send('Room reserved');
+          res.status(200).json('Room reserved');
           break;
         }
       }
 
       if (!roomFound) {
-        res.status(400).send('Room name not found');
+        res.status(400).json('Room name not found');
       }
     })
     .catch((error) => {
-      res.status(500).send(`An error has occurred : ${error}`);
+      res.status(500).json(`An error has occurred : ${error}`);
       console.log(error);
     });
 }
@@ -109,12 +109,12 @@ export async function GetRoomAvailable(req: Request, res: Response) {
     }
 
     if (RoomsAvailable.length == 0) {
-      res.send("No rooms available")
+      res.json("No room available")
     } else {
-      res.send(RoomsAvailable);
+      res.json(RoomsAvailable);
     }
   } catch (error) {
-    res.status(500).send(`An error has occurred : ${error}`);
+    res.status(500).json(`An error has occurred : ${error}`);
     console.log(error);
   }
 }

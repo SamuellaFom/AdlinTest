@@ -46,7 +46,7 @@ export default {
       e.preventDefault()
       v$.value.$validate()
       if (!v$.value.$error) {
-        fetch('http://194.32.78.202:3000/api/create/reservation', {
+        fetch(`${import.meta.env.VITE_API_URL}create/reservation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

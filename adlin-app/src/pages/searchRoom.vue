@@ -72,7 +72,7 @@ export default {
       e.preventDefault()
       v$.value.$validate()
       if (!v$.value.$error) {
-        fetch('http://194.32.78.202:3000/api/room_available', {
+        fetch(`${import.meta.env.VITE_API_URL}room_available`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -92,13 +92,16 @@ export default {
             }
           })
           .then(data => {
-            console.log(data);
-            router.push({
-              name: 'roomAvailable',
-              query: {
-                roomsAvailable: JSON.stringify(data)
-              }
-            });
+            if (data == "No room available") {
+              alert('Aucune salle disponible')
+            } else {
+              router.push({
+                name: 'roomAvailable',
+                query: {
+                  roomsAvailable: JSON.stringify(data)
+                }
+              });
+            }
           })
           .catch(error => console.error('Fetch error:', error));
       } else {
