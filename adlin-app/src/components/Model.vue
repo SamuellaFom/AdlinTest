@@ -46,7 +46,7 @@ export default {
       e.preventDefault()
       v$.value.$validate()
       if (!v$.value.$error) {
-        fetch(`${import.meta.env.VITE_API_URL}api/create/reservation`, {
+        fetch(`${import.meta.env.VITE_API_URL}/api/create/reservation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
