@@ -72,7 +72,7 @@ export default {
       e.preventDefault()
       v$.value.$validate()
       if (!v$.value.$error) {
-        fetch(`${import.meta.env.VITE_API_URL}room_available`, {
+        fetch(`${import.meta.env.VITE_API_URL}api/room_available`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
