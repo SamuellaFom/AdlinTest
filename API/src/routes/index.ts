@@ -1,10 +1,9 @@
 import express from "express";
-import { CreateReservation, GetRoomAvailable, GetRooms} from "../services";
+import { createReservation, getRoomAvailable} from "../services";
 
-const RouteRooms = express();
+const routeRooms = express();
 
-RouteRooms.get("/api/allrooms", GetRooms);
-RouteRooms.post("/api/create/reservation", CreateReservation);
-RouteRooms.post("/api/room_available", GetRoomAvailable);
+routeRooms.post("/api/create/reservation", createReservation);
+routeRooms.post("/api/roomAvailable", getRoomAvailable);
 
-export default RouteRooms;
+export default routeRooms;

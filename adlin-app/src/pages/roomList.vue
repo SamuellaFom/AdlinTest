@@ -12,7 +12,7 @@
           </ul>
           <p v-else>Aucun équipements disponibles</p>
           <button @click="(() => { showModal = !showModal })">Reserver</button>
-          <Model v-if="showModal" :room_name="room.name"></Model>
+          <Model v-if="showModal" :roomName="room.name"></Model>
         </div>
       </div>
     </div>

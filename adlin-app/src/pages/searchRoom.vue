@@ -4,12 +4,12 @@
       <form>
         <div class="form-inline">
           <div class="form-group">
-            <label for="start_date">Date de réservation :</label>
-            <input type="datetime-local" required v-model="state.start_date" id="start_date">
+            <label for="startDate">Date de réservation :</label>
+            <input type="datetime-local" required v-model="state.startDate" id="startDate">
           </div>
           <div class="form-group">
-            <label for="end_date">Fin de réservation :</label>
-            <input type="datetime-local" required v-model="state.end_date" id="end_date">
+            <label for="endDate">Fin de réservation :</label>
+            <input type="datetime-local" required v-model="state.endDate" id="endDate">
           </div>
           <div class="form-group">
             <label for="capacity-select">Capacité :</label>
@@ -51,16 +51,16 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      start_date: '',
-      end_date: '',
+      startDate: '',
+      endDate: '',
       capacity: '',
       equipements: []
     });
 
     const rules = computed(() => {
       return {
-        start_date: { required },
-        end_date: { required },
+        startDate: { required },
+        endDate: { required },
         capacity: { required },
         equipements: {},
       };
@@ -69,17 +69,20 @@ export default {
     const v$ = useValidate(rules, state);
 
     const submitForm = async (e) => {
+
+      console.log(state)
+      
       e.preventDefault()
       v$.value.$validate()
       if (!v$.value.$error) {
-        fetch(`${import.meta.env.VITE_API_URL}/api/room_available`, {
+        fetch(`${import.meta.env.VITE_API_URL}/api/roomAvailable`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            "start_date": state.start_date,
-            "end_date": state.end_date,
+            "startDate": state.startDate,
+            "endDate": state.endDate,
             "capacity": parseInt(state.capacity),
             "equipements": state.equipements
           })
@@ -92,7 +95,7 @@ export default {
             }
           })
           .then(data => {
-            if (data == "No room available") {
+            if (data.length === 0) {
               alert('Aucune salle disponible')
             } else {
               router.push({

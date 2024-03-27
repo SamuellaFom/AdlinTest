@@ -1,46 +1,33 @@
 import { Response, Request, json } from "express";
-import { Rooms } from "./interphase";
+import { Rooms } from "./interphace";
 import * as fs from 'fs';
 
 const path = require('path');
 
 // The ParseJson function reads and parses a JSON file 
-export async function ParseJson(file: String) {
-  const ContentFile: any = fs.readFileSync(path.join(__dirname, `../json/${file}`), 'utf8');
-  return JSON.parse(ContentFile)
+export async function parseJson(file: String) {
+  const contentFile: any = fs.readFileSync(path.join(__dirname, `../json/${file}`), 'utf8');
+  return JSON.parse(contentFile)
 }
 
-export async function GetRooms(req: Request, res: Response) {
-  try {
-
-    const AllRooms = await ParseJson("salles.json");
-    res.json(AllRooms['rooms'])
-
-  } catch (error) {
-    res.status(500).json(`An error has occurred : ${error}`);
-    console.log(error);
-  }
-
-}
-
-export async function CreateReservation(req: Request, res: Response) {
-  ParseJson('salles.json')
+export async function createReservation(req: Request, res: Response) {
+  parseJson('salles.json')
     .then(async (value: any) => {
       const content: Rooms[] = value.rooms
       let roomFound = false;
 
       /* this code block verifies that the selected room exists and creates the reservation */
       for (let i = 0; i < content.length; i++) {
-        if (req.body.name == content[i]['name']) {
+        if (req.body.name === content[i]['name']) {
           roomFound = true;
-          const contentReservation = await ParseJson("reservation.json");
+          const contentReservation = await parseJson("reservation.json");
           if (!contentReservation["rooms"]) {
             contentReservation["rooms"] = [];
           }
           const reservation = {
             "name": content[i]['name'],
-            "start_date": req.body.start_date,
-            "end_date": req.body.end_date
+            "startDate": req.body.startDate,
+            "endDate": req.body.endDate
           };
           contentReservation["rooms"].push(reservation);
           fs.writeFileSync((path.join(__dirname, '../json/reservation.json')), JSON.stringify(contentReservation, null, 4));
@@ -59,30 +46,30 @@ export async function CreateReservation(req: Request, res: Response) {
     });
 }
 
-export async function GetRoomAvailable(req: Request, res: Response) {
+export async function getRoomAvailable(req: Request, res: Response) {
   try {
-    const Rooms = await ParseJson('salles.json');
-    const Reservations = await ParseJson('reservation.json');
+    const rooms = await parseJson('salles.json');
+    const reservations = await parseJson('reservation.json');
 
-    let RoomsAvailable: Rooms[] = []
+    let roomsAvailable: Rooms[] = []
 
     /* this code block selects the rooms according to the given criteria */
 
-    for (let i = 0; i < Rooms['rooms'].length; i++) {
+    for (let i = 0; i < rooms['rooms'].length; i++) {
 
-      if (req.body.capacity == Rooms['rooms'][i].capacity) {
+      if (req.body.capacity === rooms['rooms'][i].capacity) {
 
-        if (req.body.equipements.length == 0 && Rooms['rooms'][i]['equipements'].length == 0) {
+        if (req.body.equipements.length === 0 && rooms['rooms'][i]['equipements'].length === 0) {
 
-          RoomsAvailable.push(Rooms['rooms'][i])
+          roomsAvailable.push(rooms['rooms'][i])
 
         } else {
 
-          for (let j = 0; j < Rooms['rooms'][i]['equipements'].length; j++) {
+          for (let j = 0; j < rooms['rooms'][i]['equipements'].length; j++) {
 
-            if (Rooms['rooms'][i].equipements.some((equipement: any) => equipement.name === req.body.equipements[j])) {
+            if (rooms['rooms'][i].equipements.some((equipement: any) => equipement.name === req.body.equipements[j])) {
 
-              RoomsAvailable.push(Rooms['rooms'][i])
+              roomsAvailable.push(rooms['rooms'][i])
               break;
             }
           }
@@ -93,26 +80,25 @@ export async function GetRoomAvailable(req: Request, res: Response) {
 
     /* This block of code is checking for room availability based on existing reservations. */
 
-    if (Reservations['rooms'] != undefined) {
-      for (let i = 0; i < Reservations['rooms'].length; i++) {
+    if (reservations['rooms'] != undefined) {
+      for (let i = 0; i < reservations['rooms'].length; i++) {
 
-        for (let j = 0; j < RoomsAvailable.length; j++) {
+        for (let j = 0; j < roomsAvailable.length; j++) {
 
-          if (RoomsAvailable[j].name == Reservations['rooms'][i].name) {
+          if (roomsAvailable[j].name === reservations['rooms'][i].name) {
 
-            if ((req.body.start_date == Reservations['rooms'][i].start_date) || (req.body.end_date == Reservations['rooms'][i].end_date)) {
-              RoomsAvailable.splice(j, 1)
+            if ((req.body.startDate >= reservations['rooms'][i].startDate && req.body.startDate < reservations['rooms'][i].endDate) ||
+              (req.body.endDate > reservations['rooms'][i].startDate && req.body.endDate <= reservations['rooms'][i].endDate) ||
+              (req.body.startDate < reservations['rooms'][i].startDate && req.body.endDate > reservations['rooms'][i].endDate)) {
+              roomsAvailable.splice(j, 1);
+              break;
             }
           }
         }
       }
     }
 
-    if (RoomsAvailable.length == 0) {
-      res.json("No room available")
-    } else {
-      res.json(RoomsAvailable);
-    }
+    res.json(roomsAvailable);
   } catch (error) {
     res.status(500).json(`An error has occurred : ${error}`);
     console.log(error);

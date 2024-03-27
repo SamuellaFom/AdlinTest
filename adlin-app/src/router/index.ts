@@ -9,7 +9,7 @@ const routes = [
     component: searchRoom,
   },
   {
-    path: '/room_available',
+    path: '/roomAvailable',
     name: "roomAvailable",
     component: roomList,
     props: true

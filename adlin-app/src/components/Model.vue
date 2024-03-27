@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <label for="start_date">Date de réservation :</label>
-      <input type="datetime-local" v-model="state.start_date" id="start_date">
+      <label for="startDate">Date de réservation :</label>
+      <input type="datetime-local" v-model="state.startDate" id="startDate">
     </div>
     <div>
-      <label for="end_date">Fin de réservation :</label>
-      <input type="datetime-local" v-model="state.end_date" id="end_date">
+      <label for="endDate">Fin de réservation :</label>
+      <input type="datetime-local" v-model="state.endDate" id="endDate">
     </div>
     <button type="submit" @click="submitForm">Confirmer</button>
   </div>
@@ -20,7 +20,7 @@ import { useRouter } from 'vue-router'
 
 export default {
   props: {
-    room_name: {
+    roomName: {
       type: String,
       required: true
     }
@@ -29,14 +29,14 @@ export default {
     const router = useRouter();
 
     const state = reactive({
-      start_date: '',
-      end_date: '',
+      startDate: '',
+      endDate: '',
     });
 
     const rules = computed(() => {
       return {
-        start_date: { required },
-        end_date: { required },
+        startDate: { required },
+        endDate: { required },
       };
     });
 
@@ -45,6 +45,7 @@ export default {
     const submitForm = async (e) => {
       e.preventDefault()
       v$.value.$validate()
+      
       if (!v$.value.$error) {
         fetch(`${import.meta.env.VITE_API_URL}/api/create/reservation`, {
           method: 'POST',
@@ -52,9 +53,9 @@ export default {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            "name": props.room_name,
-            "start_date": state.start_date,
-            "end_date": state.end_date,
+            "name": props.roomName,
+            "startDate": state.startDate,
+            "endDate": state.endDate,
           })
         })
           .then(response => {
@@ -64,7 +65,6 @@ export default {
           })
           .catch(error => console.error('Fetch error:', error));
         router.push('/');
-        //alert('Form succesfully submitted')
       } else {
         alert('Form failed validation')
       }

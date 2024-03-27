@@ -5,7 +5,6 @@ In this project, you will find a REST API that returns several routes.
 
 ### Installation Guide
   * Run ``npm install`` to install all dependencies
-  * Create an .env file in your project root folder and add your variables. See .env.sample for assistance.
 
 ### Use
   * Run ```npm run dev``` to start the application.

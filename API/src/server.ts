@@ -1,4 +1,4 @@
-import RouteRooms from "./routes";
+import routeRooms from "./routes";
 
 const cors = require("cors");
 const express = require('express')
@@ -13,7 +13,7 @@ app.use(cors({
   allowedHeaders: "*"
 }));
 
-app.use('/', RouteRooms);
+app.use('/', routeRooms);
 
 app.get('/', (req: any, res: any) => {
   res.send('Hello World!!!!!!')
